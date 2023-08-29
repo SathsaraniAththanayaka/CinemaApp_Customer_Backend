@@ -21,8 +21,7 @@ public class JsonKafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(List<MovieDTO> movieDTOList){
-        for (MovieDTO movieDTO : movieDTOList) {
+    public void sendMessage(MovieDTO movieDTO){
             LOGGER.info(String.format("Message sent -> %s", movieDTO.toString()));
             Message<MovieDTO> message = MessageBuilder
                     .withPayload(movieDTO)
@@ -30,7 +29,7 @@ public class JsonKafkaProducer {
                     .build();
 
             kafkaTemplate.send(message);
-        }
+
 
     }
 }

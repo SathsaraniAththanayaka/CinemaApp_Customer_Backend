@@ -21,8 +21,8 @@ public class JsonMessageController {
     }
 
     @PostMapping("/publish")
-    public ResponseEntity<String> publish(@RequestBody List<MovieDTO> movieDTOList){
-        kafkaProducer.sendMessage(movieDTOList);
+    public ResponseEntity<String> publish(@RequestBody MovieDTO movieDTO){
+        kafkaProducer.sendMessage(movieDTO);
         return ResponseEntity.ok("Json Message sent to kafka topic -> movie");
     }
 }

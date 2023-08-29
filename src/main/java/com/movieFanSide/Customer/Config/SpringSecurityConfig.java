@@ -39,6 +39,7 @@ public class SpringSecurityConfig {
                 .antMatchers("/customer/login").permitAll()
                 .antMatchers("/customer/edit").authenticated()
                 .antMatchers("/customer/kafka/publish").permitAll()
+                .antMatchers("/customer/movie").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic() // Use HTTP Basic authentication
