@@ -35,11 +35,9 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/customer/register").permitAll()
-                .antMatchers("/customer/login").permitAll()
+                .antMatchers("/customer/register","/customer/login").permitAll()
                 .antMatchers("/customer/edit").authenticated()
-                .antMatchers("/customer/kafka/publish").permitAll()
-                .antMatchers("/customer/movie").permitAll()
+                .antMatchers("/customer/kafka/publish","/customer/kafka/bookings","/customer/movie","/customer/shows","/customer/seat").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic() // Use HTTP Basic authentication

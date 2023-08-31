@@ -1,8 +1,6 @@
 package com.movieFanSide.Customer.CustomerController;
 
-import com.movieFanSide.Customer.Dto.CustomerDTO;
-import com.movieFanSide.Customer.Dto.LoginDTO;
-import com.movieFanSide.Customer.Dto.MovieDTO;
+import com.movieFanSide.Customer.Dto.*;
 import com.movieFanSide.Customer.Entity.Movie;
 import com.movieFanSide.Customer.Response.LoginResponse;
 import com.movieFanSide.Customer.Service.CustomerService;
@@ -42,11 +40,19 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/movie")
-    public List<MovieDTO> getMovies(){
+    public List<MovieDetailsDTO> getMovies(){
         return  customerService.getMovies();
     }
 
+    @GetMapping(path = "/shows")
+    public ShowDTO getShows(int movieid){
+        return  customerService.getShows(movieid);
+    }
 
+    @GetMapping(path = "/seat")
+    public List<SeatDTO> getSeats(int showid){
+        return customerService.getSeats(showid);
+    }
 
 
 }

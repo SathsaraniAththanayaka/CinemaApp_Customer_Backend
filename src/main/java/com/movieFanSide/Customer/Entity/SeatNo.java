@@ -58,4 +58,7 @@ public class SeatNo {
         this.seatType = seatType;
         this.seatNo = seatNo;
     }
+
+    public SeatNo() {
+    }
 }

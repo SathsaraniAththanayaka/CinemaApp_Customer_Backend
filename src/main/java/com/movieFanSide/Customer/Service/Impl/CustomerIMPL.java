@@ -1,25 +1,16 @@
 package com.movieFanSide.Customer.Service.Impl;
 
-import com.movieFanSide.Customer.Dto.CustomerDTO;
-import com.movieFanSide.Customer.Dto.LoginDTO;
-import com.movieFanSide.Customer.Dto.MovieDTO;
-import com.movieFanSide.Customer.Entity.Customer;
-import com.movieFanSide.Customer.Entity.Movie;
-import com.movieFanSide.Customer.Entity.Schedule;
-import com.movieFanSide.Customer.Entity.Theater;
-import com.movieFanSide.Customer.Repo.CustomerRepo;
-import com.movieFanSide.Customer.Repo.ScheduleRepo;
-import com.movieFanSide.Customer.Repo.MovieRepo;
-import com.movieFanSide.Customer.Repo.TheaterRepo;
+import com.movieFanSide.Customer.Dto.*;
+import com.movieFanSide.Customer.Entity.*;
+import com.movieFanSide.Customer.Repo.*;
 import com.movieFanSide.Customer.Response.LoginResponse;
 import com.movieFanSide.Customer.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerIMPL implements CustomerService {
@@ -34,6 +25,9 @@ public class CustomerIMPL implements CustomerService {
 
     @Autowired
     private ScheduleRepo scheduleRepo;
+
+    @Autowired
+    private SeatRepo seatRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
@@ -105,51 +99,97 @@ public class CustomerIMPL implements CustomerService {
     }
 
     @Override
-    public List<MovieDTO> getMovies() {
-        return null;
+    public List<MovieDetailsDTO> getMovies() {
+        List<Movie> movies = movieRepo.findAll();
+        List<MovieDetailsDTO> movieDetailsDTOs = new ArrayList<>();
+
+        for(Movie movie : movies){
+            MovieDetailsDTO movieDetailsDTO = new MovieDetailsDTO();
+            movieDetailsDTO.setMovieid(movie.getMovieid());
+            movieDetailsDTO.setImage(movie.getImage());
+            movieDetailsDTO.setTitle(movie.getTitle());
+            movieDetailsDTO.setDescription(movie.getDescription());
+            movieDetailsDTO.setLanguage(movie.getLanguage());
+            movieDetailsDTO.setDuration(movie.getDuration());
+            movieDetailsDTO.setReleaseDate(movie.getReleaseDate());
+
+            movieDetailsDTOs.add(movieDetailsDTO);
+        }
+        return movieDetailsDTOs;
     }
 
-//    @Override
-//    public List<MovieDTO> getMovies() {
-//        List<Movie> movies = movieRepo.findAll();
-//        List<MovieDTO> movieDTOs = new ArrayList<>();
-//
-//        for (Movie movie : movies) {
-//            MovieDTO movieDTO = new MovieDTO();
-//            movieDTO.setMovieid(movie.getMovieid());
-//            movieDTO.setImage(movie.getImage());
-//            movieDTO.setTitle(movie.getTitle());
-//            movieDTO.setDescription(movie.getDescription());
-//            movieDTO.setLanguage(movie.getLanguage());
-//            movieDTO.setDuration(movie.getDuration());
-//            movieDTO.setReleaseDate(movie.getReleaseDate());
-//
-//            List<MovieDTO.Theater> theaterDTOs = new ArrayList<>();
-//            List<Theater> theaters = theaterRepo.findByMovieMovieid(movie.getMovieid());
-//            for (Theater theater : theaters) {
-//                MovieDTO.Theater theaterDTO = new MovieDTO.Theater();
-//                theaterDTO.setTheaterid(theater.getTheaterid());
-//                theaterDTO.setName(theater.getName());
-//                theaterDTO.setCity(theater.getCity());
-//
-//                List<MovieDTO.Schedule> scheduleDTOs = new ArrayList<>();
-//                List<Schedule> schedules = scheduleRepo.findByTheaterTheaterid(theater.getTheaterid());
-//                for(Schedule schedule: schedules){
-//                    MovieDTO.Schedule scheduleDTO = new MovieDTO.Schedule();
-//                    scheduleDTO.setScheduleid(schedule.getScheduleid());
-//                    scheduleDTO.setDate(schedule.getDate());
-//                    scheduleDTO.setTimes(schedule.getTimes());
-//                    scheduleDTOs.add(scheduleDTO);
-//                }
-//                theaterDTO.setSchedule(scheduleDTOs);
-//                theaterDTOs.add(theaterDTO);
-//            }
-//            movieDTO.setPlaces(theaterDTOs);
-//
-//            movieDTOs.add(movieDTO);
-//        }
-//        return movieDTOs;
-//    }
+    @Override
+    public ShowDTO getShows(int movieid) {
+        List<Schedule> schedules = scheduleRepo.findByMovieMovieid(movieid);
+
+        Map<Integer, Map<String, List<Schedule>>> theaterDateMap = new HashMap<>();
+
+        for (Schedule schedule : schedules) {
+            int theaterId = schedule.getTheater().getTheaterid();
+            String date = schedule.getDate();
+
+            theaterDateMap.computeIfAbsent(theaterId, k -> new HashMap<>())
+                    .computeIfAbsent(date, k -> new ArrayList<>())
+                    .add(schedule);
+        }
+
+        List<ShowDTO.Theater> showTheaters = new ArrayList<>();
+
+        for (Map.Entry<Integer, Map<String, List<Schedule>>> theaterEntry : theaterDateMap.entrySet()) {
+            int theaterId = theaterEntry.getKey();
+            Theater theater = theaterRepo.findById(theaterId).orElse(null);
+
+            if (theater != null) {
+                ShowDTO.Theater showTheater = new ShowDTO.Theater();
+                showTheater.setTheaterid(theaterId);
+                showTheater.setTheaterName(theater.getName());
+                showTheater.setTheaterCity(theater.getCity());
+
+                List<ShowDTO.Date> showDates = new ArrayList<>();
+
+                for (Map.Entry<String, List<Schedule>> dateEntry : theaterEntry.getValue().entrySet()) {
+                    ShowDTO.Date showDate = new ShowDTO.Date();
+                    showDate.setDate(dateEntry.getKey());
+
+                    List<ShowDTO.Time> showTimes = new ArrayList<>();
+                    for (Schedule schedule : dateEntry.getValue()) {
+                        ShowDTO.Time showTime = new ShowDTO.Time();
+                        showTime.setTime(schedule.getTime());
+                        showTime.setScheduleid(String.valueOf(schedule.getScheduleid()));
+                        showTimes.add(showTime);
+                    }
+
+                    showDate.setTimes(showTimes);
+                    showDates.add(showDate);
+                }
+
+                showTheater.setDates(showDates);
+                showTheaters.add(showTheater);
+            }
+        }
+
+        ShowDTO showDTO = new ShowDTO();
+        showDTO.setMovieid(movieid);
+        showDTO.setTheaters(showTheaters);
+
+        return showDTO;
+    }
+
+    @Override
+    public List<SeatDTO> getSeats(int showid) {
+        List<SeatNo> seats = seatRepo.findByScheduleScheduleid(showid);
+        List<SeatDTO> seatDTOs = new ArrayList<>();
+
+        for (SeatNo seat : seats){
+            SeatDTO seatDTO = new SeatDTO(
+                    seat.getSeatType(),
+                    seat.getSeatNo()
+            );
+            seatDTOs.add(seatDTO);
+        }
+
+        return seatDTOs;
+    }
 
 
 }

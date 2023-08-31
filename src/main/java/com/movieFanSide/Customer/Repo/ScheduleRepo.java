@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface ScheduleRepo extends JpaRepository<Schedule,Integer> {
     List<Schedule> findByTheaterTheaterid( int theaterid);
+
+    List<Schedule> findByMovieMovieid(int movieid);
 }

@@ -1,5 +1,6 @@
 package com.movieFanSide.Customer.Kafka;
 
+import com.movieFanSide.Customer.Dto.BookingDTO;
 import com.movieFanSide.Customer.Dto.MovieDTO;
 import com.movieFanSide.Customer.Service.CustomerService;
 import com.movieFanSide.Customer.Service.MovieService;
@@ -25,6 +26,11 @@ public class JsonKafkaConsumer {
     public void consume(MovieDTO movieDTO){
             movieService.addMovie(movieDTO);
             LOGGER.info(String.format("Message received -> %s", movieDTO.toString()));
+    }
+
+    @KafkaListener(topics = "booking_json", groupId = "myGroup")
+    public void consume(BookingDTO bookingDTO){
+        LOGGER.info(String.format("Message received -> %s", bookingDTO.toString()));
     }
 }
 
