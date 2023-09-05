@@ -1,41 +1,97 @@
 package com.movieFanSide.Customer.Dto;
 
 public class BookingDTO {
-    private String showID;
-    private String type;
 
-    private int seatNo;
+    private int bookingID;
 
-    public BookingDTO(String showID, String type, int seatNo) {
-        this.showID = showID;
-        this.type = type;
-        this.seatNo = seatNo;
+    private int customerID;
+
+    private String name;
+
+    private String customerEmail;
+
+    private int showId;
+
+    private String seatCategory;
+
+    private int noOfBookedSeats;
+
+    public BookingDTO(int bookingID, int customerID, String name, String customerEmail, int showId,
+                      String seatCategory, int noOfBookedSeats) {
+        this.bookingID = bookingID;
+        this.customerID = customerID;
+        this.name = name;
+        this.customerEmail = customerEmail;
+        this.showId = showId;
+        this.seatCategory = seatCategory;
+        this.noOfBookedSeats = noOfBookedSeats;
+    }
+
+    public BookingDTO(int bookingID, int customerID,int showId,
+                      String seatCategory, int noOfBookedSeats) {
+        this.bookingID = bookingID;
+        this.customerID = customerID;
+        this.showId = showId;
+        this.seatCategory = seatCategory;
+        this.noOfBookedSeats = noOfBookedSeats;
     }
 
     public BookingDTO() {
     }
 
-    public String getShowID() {
-        return showID;
+    public int getBookingID() {
+        return bookingID;
     }
 
-    public void setShowID(String showID) {
-        this.showID = showID;
+    public void setBookingID(int bookingID) {
+        this.bookingID = bookingID;
     }
 
-    public String getType() {
-        return type;
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
-    public int getSeatNo() {
-        return seatNo;
+    public String getName() {
+        return name;
     }
 
-    public void setSeatNo(int seatNo) {
-        this.seatNo = seatNo;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public int getShowId() {
+        return showId;
+    }
+
+    public void setShowId(int showId) {
+        this.showId = showId;
+    }
+
+    public String getSeatCategory() {
+        return seatCategory;
+    }
+
+    public void setSeatCategory(String seatCategory) {
+        this.seatCategory = seatCategory;
+    }
+
+    public int getNoOfBookedSeats() {
+        return noOfBookedSeats;
+    }
+
+    public void setNoOfBookedSeats(int noOfBookedSeats) {
+        this.noOfBookedSeats = noOfBookedSeats;
     }
 }

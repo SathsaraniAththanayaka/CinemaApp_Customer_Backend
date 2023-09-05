@@ -1,5 +1,6 @@
 package com.movieFanSide.Customer.CustomerController;
 
+import com.movieFanSide.Customer.Dto.BookingConfirmDTO;
 import com.movieFanSide.Customer.Dto.BookingDTO;
 import com.movieFanSide.Customer.Dto.MovieDTO;
 import com.movieFanSide.Customer.Kafka.JsonKafkaProducer;
@@ -31,5 +32,11 @@ public class JsonMessageController {
     public ResponseEntity<String> publish(@RequestBody BookingDTO bookingDTO){
         kafkaProducer.sendBookings(bookingDTO);
         return ResponseEntity.ok("Json Message sent to kafka topic -> bookings");
+    }
+
+    @PostMapping("/bookingsConfirm")
+    public ResponseEntity<String> publish(@RequestBody BookingConfirmDTO bookingConfirmDTO){
+        kafkaProducer.sendBookingsConfirm(bookingConfirmDTO);
+        return ResponseEntity.ok("Json Message sent to kafka topic -> bookings_Confirm");
     }
 }

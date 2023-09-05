@@ -50,9 +50,24 @@ public class CustomerController {
     }
 
     @GetMapping(path = "/seat")
-    public List<SeatDTO> getSeats(int showid){
-        return customerService.getSeats(showid);
+    public List<SeatDTO> getSeats(int showid, int theaterid){
+        return customerService.getSeats(showid,theaterid);
     }
 
+    @PostMapping(path = "/bookings")
+    public int addBookings(@RequestBody ReserveSeatDTO reserveSeatDTO){
+        return customerService.addBooking(reserveSeatDTO);
+
+    }
+
+    @GetMapping(path = "/details")
+    public String getName(int customerid){
+        return customerService.getName(customerid);
+    }
+
+    @GetMapping(path = "/confirm")
+    public String getConfirm(int bookingid){
+        return customerService.getConfirm(bookingid);
+    }
 
 }

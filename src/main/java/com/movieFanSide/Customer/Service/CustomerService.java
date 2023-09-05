@@ -18,5 +18,11 @@ public interface CustomerService {
 
     ShowDTO getShows(int movieid);
 
-    List<SeatDTO> getSeats(int showid);
+    List<SeatDTO> getSeats(int showid,int theaterid);
+
+    int addBooking(ReserveSeatDTO reserveSeatDTO);
+
+    String getName(int customerid);
+
+    String getConfirm(int bookingid);
 }

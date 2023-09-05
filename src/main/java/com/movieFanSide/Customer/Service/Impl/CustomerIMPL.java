@@ -28,6 +28,15 @@ public class CustomerIMPL implements CustomerService {
 
     @Autowired
     private SeatRepo seatRepo;
+
+    @Autowired
+    private PriceRepo priceRepo;
+
+    @Autowired BookingRepo bookingRepo;
+
+    @Autowired
+    private ConfirmedBookingRepo confirmedBookingRepo;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
@@ -176,7 +185,7 @@ public class CustomerIMPL implements CustomerService {
     }
 
     @Override
-    public List<SeatDTO> getSeats(int showid) {
+    public List<SeatDTO> getSeats(int showid,int theaterId) {
         List<SeatNo> seats = seatRepo.findByScheduleScheduleid(showid);
         List<SeatDTO> seatDTOs = new ArrayList<>();
 
@@ -185,10 +194,40 @@ public class CustomerIMPL implements CustomerService {
                     seat.getSeatType(),
                     seat.getSeatNo()
             );
+
+            Price seatPrice = priceRepo.findByTheaterTheateridAndSeatCategory(theaterId, seat.getSeatType());
+            seatDTO.setPrice(seatPrice.getPrice());
             seatDTOs.add(seatDTO);
         }
 
         return seatDTOs;
+    }
+
+    @Override
+    public int addBooking(ReserveSeatDTO reserveSeatDTO) {
+        Booking booking = new Booking(
+                reserveSeatDTO.getBookingid(),
+                reserveSeatDTO.getShowid(),
+                reserveSeatDTO.getSeatCategory(),
+                reserveSeatDTO.getNoOfSeats(),
+                reserveSeatDTO.getCustomerid()
+        );
+
+        bookingRepo.save(booking);
+
+        return booking.getBookingid();
+    }
+
+    @Override
+    public String getName(int customerid) {
+        Customer customer = customerRepo.findById(customerid);
+        return customer.getCustomerName();
+    }
+
+    @Override
+    public String getConfirm(int bookingid) {
+        ConfirmedBookings confirmedBookings = confirmedBookingRepo.findByBookingid(bookingid);
+        return confirmedBookings.getMessage();
     }
 
 

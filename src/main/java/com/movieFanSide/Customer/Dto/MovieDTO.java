@@ -7,35 +7,31 @@ import java.util.Map;
 public class MovieDTO {
 
 
-    private int theaterid;
-
-    private String theaterName;
-
-    private String theaterCity;
+    private Cinema cinemaUser;
 
     private int movieid;
-    private String image;
-    private String title;
+    private String imgURL;
+    private String movieName;
     private String description;
     private String language;
-    private String duration;
+    private int durationMinutes;
     private String releaseDate;
-    private List<Schedule> schedules;
+    private List<Schedule> shows;
+    private Map<String, Double> seats;
 
-    public MovieDTO(int movieid, int theaterid, String theaterName, String theaterCity,
-                    String image, String title, String description, String language,
-                    String duration, String releaseDate, List<Schedule> schedules) {
+    public MovieDTO(int movieid, Cinema cinemaUser,
+                    String imgURL, String movieName, String description, String language,
+                    int durationMinutes, String releaseDate, List<Schedule> shows,Map<String, Double> seats) {
         this.movieid = movieid;
-        this.theaterid = theaterid;
-        this.theaterName = theaterName;
-        this.theaterCity = theaterCity;
-        this.image = image;
-        this.title = title;
+        this.cinemaUser = cinemaUser;
+        this.imgURL = imgURL;
+        this.movieName = movieName;
         this.description = description;
         this.language = language;
-        this.duration = duration;
+        this.durationMinutes = durationMinutes;
         this.releaseDate = releaseDate;
-        this.schedules = schedules;
+        this.shows = shows;
+        this.seats = seats;
     }
 
     public MovieDTO() {
@@ -49,20 +45,20 @@ public class MovieDTO {
         this.movieid = movieid;
     }
 
-    public String getImage() {
-        return image;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMovieName() {
+        return movieName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
     }
 
     public String getDescription() {
@@ -81,12 +77,12 @@ public class MovieDTO {
         this.language = language;
     }
 
-    public String getDuration() {
-        return duration;
+    public int getDurationMinutes() {
+        return durationMinutes;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
+    public void setDurationMinutes(int durationMinutes) {
+        this.durationMinutes = durationMinutes;
     }
 
     public String getReleaseDate() {
@@ -97,84 +93,127 @@ public class MovieDTO {
         this.releaseDate = releaseDate;
     }
 
-    public int getTheaterid() {
-        return theaterid;
+
+    public List<Schedule> getShows() {
+        return shows;
     }
 
-    public void setTheaterid(int theaterid) {
-        this.theaterid = theaterid;
+    public void setShows(List<Schedule> shows) {
+        this.shows = shows;
     }
 
-    public String getTheaterName() {
-        return theaterName;
+    public Cinema getCinemaUser() {
+        return cinemaUser;
     }
 
-    public void setTheaterName(String theaterName) {
-        this.theaterName = theaterName;
+    public void setCinemaUser(Cinema cinemaUser) {
+        this.cinemaUser = cinemaUser;
     }
 
-    public String getTheaterCity() {
-        return theaterCity;
+    public Map<String, Double> getSeats() {
+        return seats;
     }
 
-    public void setTheaterCity(String theaterCity) {
-        this.theaterCity = theaterCity;
+    public void setSeats(Map<String, Double> seats) {
+        this.seats = seats;
     }
 
-    public List<Schedule> getSchedules() {
-        return schedules;
-    }
+    public static class Cinema{
+        private int cinemaId;
+        private String cinemaName;
 
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
+        private String city;
+        private String phoneNo;
+
+        public Cinema(int cinemaId, String cinemaName, String city, String phoneNo) {
+            this.cinemaId = cinemaId;
+            this.cinemaName = cinemaName;
+            this.city = city;
+            this.phoneNo = phoneNo;
+        }
+
+        public Cinema() {
+        }
+
+        public int getCinemaId() {
+            return cinemaId;
+        }
+
+        public void setCinemaId(int cinemaId) {
+            this.cinemaId = cinemaId;
+        }
+
+        public String getCinemaName() {
+            return cinemaName;
+        }
+
+        public void setCinemaName(String cinemaName) {
+            this.cinemaName = cinemaName;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getPhoneNo() {
+            return phoneNo;
+        }
+
+        public void setPhoneNo(String phoneNo) {
+            this.phoneNo = phoneNo;
+        }
     }
 
     public static class Schedule {
 
-        private int scheduleid;
-        private String date;
+        private int showID;
+        private String showDate;
 
-        private String time;
-        private List<SeatNo> seats;
+        private String showTime;
+        private List<SeatNo> seatCategoryDTO;
 
-        public int getScheduleid() {
-            return scheduleid;
+        public int getShowID() {
+            return showID;
         }
 
-        public void setScheduleid(int scheduleid) {
-            this.scheduleid = scheduleid;
+        public void setShowID(int showID) {
+            this.showID = showID;
         }
 
-        public String getDate() {
-            return date;
+        public String getShowDate() {
+            return showDate;
         }
 
-        public void setDate(String date) {
-            this.date = date;
+        public void setShowDate(String showDate) {
+            this.showDate = showDate;
         }
 
-        public String getTime() {
-            return time;
+        public String getShowTime() {
+            return showTime;
         }
 
-        public void setTime(String time) {
-            this.time = time;
+        public void setShowTime(String showTime) {
+            this.showTime = showTime;
         }
 
-        public List<SeatNo> getSeats() {
-            return seats;
+        public List<SeatNo> getSeatCategoryDTO() {
+            return seatCategoryDTO;
         }
 
-        public void setSeats(List<SeatNo> seats) {
-            this.seats = seats;
+        public void setSeatCategoryDTO(List<SeatNo> seatCategoryDTO) {
+            this.seatCategoryDTO = seatCategoryDTO;
         }
     }
 
     public static class SeatNo{
         private int availabilityid;
-        private String category;
+        private String type;
 
-        private int seatNo;
+        private int availableSeatCount;
 
         public int getAvailabilityid() {
             return availabilityid;
@@ -184,20 +223,20 @@ public class MovieDTO {
             this.availabilityid = availabilityid;
         }
 
-        public String getCategory() {
-            return category;
+        public String getType() {
+            return type;
         }
 
-        public void setCategory(String category) {
-            this.category = category;
+        public void setType(String type) {
+            this.type = type;
         }
 
-        public int getSeatNo() {
-            return seatNo;
+        public int getAvailableSeatCount() {
+            return availableSeatCount;
         }
 
-        public void setSeatNo(int seatNo) {
-            this.seatNo = seatNo;
+        public void setAvailableSeatCount(int availableSeatCount) {
+            this.availableSeatCount = availableSeatCount;
         }
     }
 
@@ -205,16 +244,13 @@ public class MovieDTO {
     public String toString() {
         return "MovieDTO{" +
                 "movieid=" + movieid +
-                ", theaterid=" + theaterid +
-                ", theaterName='" + theaterName + '\'' +
-                ", theaterCity='" + theaterCity + '\'' +
-                ", image='" + image + '\'' +
-                ", title='" + title + '\'' +
+                ", image='" + imgURL + '\'' +
+                ", title='" + movieName + '\'' +
                 ", description='" + description + '\'' +
                 ", language='" + language + '\'' +
-                ", duration='" + duration + '\'' +
+                ", duration='" + durationMinutes + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
-                ", schedules=" + schedules +
+                ", schedules=" + shows +
                 '}';
     }
 }

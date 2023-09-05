@@ -37,7 +37,7 @@ public class SpringSecurityConfig {
         return http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/customer/register","/customer/login").permitAll()
                 .antMatchers("/customer/edit").authenticated()
-                .antMatchers("/customer/kafka/publish","/customer/kafka/bookings","/customer/movie","/customer/shows","/customer/seat").permitAll()
+                .antMatchers("/customer/details","/customer/confirm","/customer/bookings","/customer/kafka/publish","/customer/kafka/bookingsConfirm","/customer/kafka/bookings","/customer/movie","/customer/shows","/customer/seat").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic() // Use HTTP Basic authentication

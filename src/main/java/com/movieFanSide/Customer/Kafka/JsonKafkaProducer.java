@@ -1,5 +1,6 @@
 package com.movieFanSide.Customer.Kafka;
 
+import com.movieFanSide.Customer.Dto.BookingConfirmDTO;
 import com.movieFanSide.Customer.Dto.BookingDTO;
 import com.movieFanSide.Customer.Dto.MovieDTO;
 import org.slf4j.Logger;
@@ -39,6 +40,18 @@ public class JsonKafkaProducer {
         Message<BookingDTO> message = MessageBuilder
                 .withPayload(bookingDTO)
                 .setHeader(KafkaHeaders.TOPIC, "booking_json")
+                .build();
+
+        kafkaTemplate.send(message);
+
+
+    }
+
+    public void sendBookingsConfirm(BookingConfirmDTO bookingConfirmDTO){
+        LOGGER.info(String.format("Message sent -> %s", bookingConfirmDTO.toString()));
+        Message<BookingConfirmDTO> message = MessageBuilder
+                .withPayload(bookingConfirmDTO)
+                .setHeader(KafkaHeaders.TOPIC, "bookings_Confirm")
                 .build();
 
         kafkaTemplate.send(message);

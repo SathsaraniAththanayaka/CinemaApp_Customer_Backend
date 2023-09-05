@@ -4,12 +4,23 @@ public class SeatDTO {
     private String seatType;
     private int SeatNo;
 
+    private Double price;
+
     public SeatDTO(String seatType, int seatNo) {
         this.seatType = seatType;
-        SeatNo = seatNo;
+        this.SeatNo = seatNo;
+       
     }
 
     public SeatDTO() {
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getSeatType() {
