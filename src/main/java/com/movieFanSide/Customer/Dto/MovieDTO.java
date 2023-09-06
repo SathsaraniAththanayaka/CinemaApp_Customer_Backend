@@ -1,6 +1,6 @@
 package com.movieFanSide.Customer.Dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class MovieDTO {
 
     public MovieDTO(int movieid, Cinema cinemaUser,
                     String imgURL, String movieName, String description, String language,
-                    int durationMinutes, String releaseDate, List<Schedule> shows,Map<String, Double> seats) {
+                    int durationMinutes, String releaseDate, List<Schedule> shows, Map<String, Double> seats) {
         this.movieid = movieid;
         this.cinemaUser = cinemaUser;
         this.imgURL = imgURL;
@@ -176,6 +176,16 @@ public class MovieDTO {
         private String showTime;
         private List<SeatNo> seatCategoryDTO;
 
+        public Schedule(int showID, String showDate, String showTime, List<SeatNo> seatCategoryDTO) {
+            this.showID = showID;
+            this.showDate = showDate;
+            this.showTime = showTime;
+            this.seatCategoryDTO = seatCategoryDTO;
+        }
+
+        public Schedule() {
+        }
+
         public int getShowID() {
             return showID;
         }
@@ -214,6 +224,14 @@ public class MovieDTO {
         private String type;
 
         private int availableSeatCount;
+
+        public SeatNo(String type, int availableSeatCount) {
+            this.type = type;
+            this.availableSeatCount = availableSeatCount;
+        }
+
+        public SeatNo() {
+        }
 
         public int getAvailabilityid() {
             return availabilityid;

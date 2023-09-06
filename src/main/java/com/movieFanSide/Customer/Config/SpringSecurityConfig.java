@@ -36,8 +36,8 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/customer/register","/customer/login").permitAll()
-                .antMatchers("/customer/edit").authenticated()
-                .antMatchers("/customer/details","/customer/confirm","/customer/bookings","/customer/kafka/publish","/customer/kafka/bookingsConfirm","/customer/kafka/bookings","/customer/movie","/customer/shows","/customer/seat").permitAll()
+                .antMatchers("/customer/bookings","/customer/details","/customer/edit","/customer/kafka/bookings","/customer/seat","/customer/movie","/customer/shows","/customer/confirm").authenticated()
+                .antMatchers("/customer/kafka/publish","/customer/kafka/bookingsConfirm").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic() // Use HTTP Basic authentication
@@ -64,7 +64,7 @@ public class SpringSecurityConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000"); // Allow requests from frontend
+        config.addAllowedOrigin("http://localhost:3001"); // Allow requests from frontend
         config.addAllowedMethod("*"); // Allow all HTTP methods
         config.addAllowedHeader("*"); // Allow all headers
         source.registerCorsConfiguration("/**", config);
